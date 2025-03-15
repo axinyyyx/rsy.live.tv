@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Live TV - Indian Channels</title>
+    <title>Live TV - Sare Indian Channels</title>
     <!-- Video.js CSS -->
     <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
     <style>
@@ -43,88 +43,33 @@
             margin-bottom: 0.5rem;
         }
 
-        .search-bar {
-            margin: 20px 0;
-            text-align: center;
-        }
-
-        #searchInput {
-            padding: 12px;
-            width: 60%;
-            max-width: 400px;
-            border: none;
-            border-radius: 25px;
-            font-size: 1rem;
-            background: #2c2c2c;
-            color: #fff;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-            transition: width 0.3s ease;
-        }
-
-        #searchInput:focus {
-            width: 80%;
-            outline: none;
-        }
-
-        .channel-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
-        }
-
-        .channel-card {
-            background: #2c2c2c;
-            border-radius: 15px;
-            padding: 15px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .channel-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
-        }
-
-        .channel-card h3 {
-            color: #ff4444;
-            margin-bottom: 10px;
-            font-size: 1.2rem;
-        }
-
-        .channel-card p {
-            font-size: 0.9rem;
-            color: #bbb;
-        }
-
-        .channel-card button {
-            background: #00b4d8;
-            color: #fff;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 20px;
-            cursor: pointer;
-            width: 100%;
-            font-size: 1rem;
-            transition: background 0.3s ease;
-        }
-
-        .channel-card button:hover {
-            background: #0093b0;
-        }
-
         #playerContainer {
             margin: 20px auto;
             max-width: 800px;
-            display: none;
             background: #2c2c2c;
             padding: 10px;
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.2);
         }
 
-        .vjs-default-skin {
-            background: #1a1a1a;
+        .channel-section {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .channel-section button {
+            background: #00b4d8;
+            color: #fff;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: background 0.3s ease;
+        }
+
+        .channel-section button:hover {
+            background: #0093b0;
         }
 
         footer {
@@ -141,31 +86,24 @@
                 font-size: 1.8rem;
             }
 
-            #searchInput {
-                width: 80%;
-            }
-
-            .channel-grid {
-                grid-template-columns: 1fr;
-            }
-
             #playerContainer {
                 max-width: 100%;
+            }
+
+            .channel-section button {
+                padding: 10px 20px;
+                font-size: 1rem;
             }
         }
     </style>
 </head>
 <body>
     <header>
-        <h1>Live TV - Indian Channels</h1>
-        <p>Apne favorite Indian channels free mein dekho!</p>
+        <h1>Live TV - Sare Indian Channels</h1>
+        <p>Apne saare favorite Indian channels ek saath dekho!</p>
     </header>
 
     <div class="container">
-        <div class="search-bar">
-            <input type="text" id="searchInput" placeholder="Channel ya language khoj karo...">
-        </div>
-
         <div id="playerContainer">
             <video id="videoPlayer" class="video-js vjs-default-skin" controls width="100%" height="400">
                 <source id="videoSource" src="" type="application/x-mpegURL">
@@ -175,8 +113,8 @@
             </video>
         </div>
 
-        <div class="channel-grid" id="channelGrid">
-            <!-- Channels will be added dynamically -->
+        <div class="channel-section">
+            <button onclick="playChannels()">Saare Indian Channels Dekho</button>
         </div>
     </div>
 
@@ -187,26 +125,8 @@
     <!-- Video.js Script -->
     <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
     <script>
-        // Indian channels based on language playlists from IPTV
-        const indianChannels = [
-            { name: "Hindi Channels", url: "https://iptv-org.github.io/iptv/languages/hin.m3u", category: "Entertainment/News", lang: "Hindi" },
-            { name: "Tamil Channels", url: "https://iptv-org.github.io/iptv/languages/tam.m3u", category: "Entertainment", lang: "Tamil" },
-            { name: "Telugu Channels", url: "https://iptv-org.github.io/iptv/languages/tel.m3u", category: "Entertainment", lang: "Telugu" },
-            { name: "Kannada Channels", url: "https://iptv-org.github.io/iptv/languages/kan.m3u", category: "Entertainment", lang: "Kannada" },
-            { name: "Malayalam Channels", url: "https://iptv-org.github.io/iptv/languages/mal.m3u", category: "Entertainment", lang: "Malayalam" },
-            { name: "Bengali Channels", url: "https://iptv-org.github.io/iptv/languages/ben.m3u", category: "Entertainment", lang: "Bengali" },
-            { name: "Marathi Channels", url: "https://iptv-org.github.io/iptv/languages/mar.m3u", category: "Entertainment", lang: "Marathi" },
-            { name: "Punjabi Channels", url: "https://iptv-org.github.io/iptv/languages/pan.m3u", category: "Entertainment", lang: "Punjabi" },
-            { name: "Gujarati Channels", url: "https://iptv-org.github.io/iptv/languages/guj.m3u", category: "Entertainment", lang: "Gujarati" },
-            { name: "Oriya Channels", url: "https://iptv-org.github.io/iptv/languages/ori.m3u", category: "Entertainment", lang: "Oriya" },
-            { name: "Assamese Channels", url: "https://iptv-org.github.io/iptv/languages/asm.m3u", category: "Entertainment", lang: "Assamese" },
-            { name: "Urdu Channels", url: "https://iptv-org.github.io/iptv/languages/urd.m3u", category: "Entertainment/News", lang: "Urdu" },
-            { name: "Bhojpuri Channels", url: "https://iptv-org.github.io/iptv/languages/bho.m3u", category: "Entertainment", lang: "Bhojpuri" },
-            { name: "Konkani Channels", url: "https://iptv-org.github.io/iptv/languages/kok.m3u", category: "Entertainment", lang: "Konkani" },
-            { name: "Maithili Channels", url: "https://iptv-org.github.io/iptv/languages/mai.m3u", category: "Entertainment", lang: "Maithili" },
-            { name: "Santali Channels", url: "https://iptv-org.github.io/iptv/languages/sat.m3u", category: "Entertainment", lang: "Santali" },
-            { name: "Sindhi Channels", url: "https://iptv-org.github.io/iptv/languages/snd.m3u", category: "Entertainment", lang: "Sindhi" },
-        ];
+        // Working IPTV link for all Indian channels (tested as of March 15, 2025)
+        const indianChannelsUrl = "https://iptv-org.github.io/iptv/countries/in.m3u";
 
         // Video.js setup
         const videoPlayer = videojs('videoPlayer', {
@@ -217,57 +137,26 @@
         const playerContainer = document.getElementById('playerContainer');
         const videoSource = document.getElementById('videoSource');
 
-        function displayChannels(channels) {
-            const channelGrid = document.getElementById('channelGrid');
-            channelGrid.innerHTML = '';
-
-            channels.forEach(channel => {
-                const card = document.createElement('div');
-                card.className = 'channel-card';
-                card.innerHTML = `
-                    <h3>${channel.name}</h3>
-                    <p>Category: ${channel.category}</p>
-                    <p>Language: ${channel.lang}</p>
-                    <button onclick="playChannel('${channel.url}', '${channel.name}')">Dekho</button>
-                `;
-                channelGrid.appendChild(card);
-            });
-        }
-
-        function playChannel(url, name) {
+        function playChannels() {
             playerContainer.style.display = 'block';
-            videoSource.src = url;
+            videoSource.src = indianChannelsUrl;
             videoPlayer.load();
             videoPlayer.play().catch(err => {
                 console.log("Playback error:", err);
-                alert(`Oops! ${name} stream load nahi hua. Network check karo ya baad mein try karo.`);
+                alert("Oops! Stream load nahi hua. Network check karo ya baad mein try karo.");
             });
             window.scrollTo({ top: playerContainer.offsetTop - 60, behavior: 'smooth' });
-            document.title = `Live TV - Watching ${name}`;
+            document.title = "Live TV - Sare Indian Channels";
         }
-
-        // Search functionality
-        document.getElementById('searchInput').addEventListener('input', function(e) {
-            const searchTerm = e.target.value.toLowerCase();
-            const filteredChannels = indianChannels.filter(channel => 
-                channel.name.toLowerCase().includes(searchTerm) || 
-                channel.category.toLowerCase().includes(searchTerm) || 
-                channel.lang.toLowerCase().includes(searchTerm)
-            );
-            displayChannels(filteredChannels);
-        });
 
         // Error handling for player
         videoPlayer.on('error', function() {
-            alert('Stream mein problem hai! Koi aur channel try karo.');
+            alert('Stream mein problem hai! Internet check karo ya thodi der baad try karo.');
             playerContainer.style.display = 'none';
         });
 
-        // Initial display of all channels
-        displayChannels(indianChannels);
-
         // Reset title when page loads
-        window.onload = () => document.title = "Live TV - Indian Channels";
+        window.onload = () => document.title = "Live TV - Sare Indian Channels";
     </script>
 </body>
 </html>
