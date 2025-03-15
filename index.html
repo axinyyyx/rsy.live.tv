@@ -126,8 +126,12 @@
     <!-- Video.js Script -->
     <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
     <script>
-        // New working IPTV link for Indian channels (tested as of March 15, 2025)
-        const indianChannelsUrl = "http://qtv.live:80/get.php?username=Qamar&password=Qamar786&type=m3u";
+        // Array of working IPTV links for Indian channels (tested as of March 15, 2025)
+        const indianChannelsUrls = [
+            "http://iptvindia.mozoroot.net:80/get.php?username=india&password=india&type=m3u", // Primary link
+            "http://qtv.live:80/get.php?username=Qamar&password=Qamar786&type=m3u" // Fallback link
+        ];
+        let currentUrlIndex = 0;
 
         // Video.js setup
         const videoPlayer = videojs('videoPlayer', {
@@ -141,11 +145,18 @@
 
         function playChannels() {
             playerContainer.style.display = 'block';
-            videoSource.src = indianChannelsUrl;
+            videoSource.src = indianChannelsUrls[currentUrlIndex];
             videoPlayer.load();
             videoPlayer.play().catch(err => {
-                console.log("Playback error:", err);
-                alert("Stream load nahi hua! Possible reasons:\n1. Internet slow hai (10 Mbps+ chahiye)\n2. Link expire ho gaya\n3. Geo-restriction hai\nInternet check karo ya VPN try karo!");
+                console.log("Playback error with link " + currentUrlIndex + ":", err);
+                // Try next link if available
+                if (currentUrlIndex < indianChannelsUrls.length - 1) {
+                    currentUrlIndex++;
+                    alert("Pehla link kaam nahi kiya. Doosra link try kar rahe hain...");
+                    playChannels();
+                } else {
+                    alert("Oops! Koi bhi stream load nahi hua!\nPossible reasons:\n1. Internet slow hai (10 Mbps+ chahiye)\n2. Sare links expire ho gaye\n3. Geo-restriction hai\nInternet check karo ya VPN try karo!");
+                }
             });
             window.scrollTo({ top: playerContainer.offsetTop - 60, behavior: 'smooth' });
             document.title = "Live TV - Sare Indian Channels";
@@ -162,8 +173,14 @@
             } else {
                 errorMessage += "Kuch unknown problem hai.";
             }
-            alert(errorMessage + "\nInternet check karo (fast.com pe speed test karo) ya thodi der baad try karo!");
-            playerContainer.style.display = 'none';
+            if (currentUrlIndex < indianChannelsUrls.length - 1) {
+                currentUrlIndex++;
+                alert(errorMessage + "\nDoosra link try kar rahe hain...");
+                playChannels();
+            } else {
+                alert(errorMessage + "\nSare links try kar liye, koi kaam nahi kiya!\nInternet check karo (fast.com pe test karo) ya VPN use karo!");
+                playerContainer.style.display = 'none';
+            }
         });
 
         // Reset title when page loads
