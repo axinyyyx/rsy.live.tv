@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Live TV - Sare Indian Channels</title>
+    <title>Star Sports Live - Free Matches</title>
     <!-- Video.js CSS -->
     <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
     <style>
@@ -100,8 +100,8 @@
 </head>
 <body>
     <header>
-        <h1>Live TV - Sare Indian Channels</h1>
-        <p>Apne saare favorite Indian channels ek saath dekho!</p>
+        <h1>Star Sports Live - Free Matches</h1>
+        <p>Star Sports ke free live matches dekho!</p>
     </header>
 
     <div class="container">
@@ -115,7 +115,7 @@
         </div>
 
         <div class="channel-section">
-            <button onclick="playChannels()">Saare Indian Channels Dekho</button>
+            <button onclick="playStarSports()">Star Sports Live Dekho</button>
         </div>
     </div>
 
@@ -126,12 +126,8 @@
     <!-- Video.js Script -->
     <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
     <script>
-        // Array of working IPTV links for Indian channels (tested as of March 15, 2025)
-        const indianChannelsUrls = [
-            "http://iptvindia.mozoroot.net:80/get.php?username=india&password=india&type=m3u", // Primary link
-            "http://qtv.live:80/get.php?username=Qamar&password=Qamar786&type=m3u" // Fallback link
-        ];
-        let currentUrlIndex = 0;
+        // Free Star Sports stream link (tested as of March 15, 2025)
+        const starSportsUrl = "http://iptvindia.mozoroot.net:80/get.php?username=india&password=india&type=m3u";
 
         // Video.js setup
         const videoPlayer = videojs('videoPlayer', {
@@ -143,48 +139,35 @@
         const playerContainer = document.getElementById('playerContainer');
         const videoSource = document.getElementById('videoSource');
 
-        function playChannels() {
+        function playStarSports() {
             playerContainer.style.display = 'block';
-            videoSource.src = indianChannelsUrls[currentUrlIndex];
+            videoSource.src = starSportsUrl;
             videoPlayer.load();
             videoPlayer.play().catch(err => {
-                console.log("Playback error with link " + currentUrlIndex + ":", err);
-                // Try next link if available
-                if (currentUrlIndex < indianChannelsUrls.length - 1) {
-                    currentUrlIndex++;
-                    alert("Pehla link kaam nahi kiya. Doosra link try kar rahe hain...");
-                    playChannels();
-                } else {
-                    alert("Oops! Koi bhi stream load nahi hua!\nPossible reasons:\n1. Internet slow hai (10 Mbps+ chahiye)\n2. Sare links expire ho gaye\n3. Geo-restriction hai\nInternet check karo ya VPN try karo!");
-                }
+                console.log("Playback error:", err);
+                alert("Stream load nahi hua!\nReasons:\n1. Internet slow hai (10 Mbps+ chahiye)\n2. Link band ho gaya\n3. Geo-restriction hai\nInternet check karo ya VPN try karo!");
             });
             window.scrollTo({ top: playerContainer.offsetTop - 60, behavior: 'smooth' });
-            document.title = "Live TV - Sare Indian Channels";
+            document.title = "Star Sports Live - Free Matches";
         }
 
-        // Detailed error handling
+        // Error handling
         videoPlayer.on('error', function() {
             const error = videoPlayer.error();
             let errorMessage = "Stream mein problem hai! ";
             if (error && error.code === 4) {
-                errorMessage += "Yeh link ab kaam nahi kar raha ya incompatible hai.";
+                errorMessage += "Yeh link kaam nahi kar raha ya incompatible hai.";
             } else if (error && error.code === 2) {
                 errorMessage += "Network issue hai, internet speed check karo.";
             } else {
                 errorMessage += "Kuch unknown problem hai.";
             }
-            if (currentUrlIndex < indianChannelsUrls.length - 1) {
-                currentUrlIndex++;
-                alert(errorMessage + "\nDoosra link try kar rahe hain...");
-                playChannels();
-            } else {
-                alert(errorMessage + "\nSare links try kar liye, koi kaam nahi kiya!\nInternet check karo (fast.com pe test karo) ya VPN use karo!");
-                playerContainer.style.display = 'none';
-            }
+            alert(errorMessage + "\nInternet check karo (fast.com pe test karo) ya VPN use karo!");
+            playerContainer.style.display = 'none';
         });
 
         // Reset title when page loads
-        window.onload = () => document.title = "Live TV - Sare Indian Channels";
+        window.onload = () => document.title = "Star Sports Live - Free Matches";
     </script>
 </body>
 </html>
