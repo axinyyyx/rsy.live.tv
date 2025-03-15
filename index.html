@@ -50,7 +50,7 @@
             padding: 10px;
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-            display: none; /* Initially hidden */
+            display: none;
         }
 
         .channel-section {
@@ -120,21 +120,21 @@
     </div>
 
     <footer>
-        <p>© 2025 Live TV. Sab rights reserved. Made with ❤️ by xAI</p>
+        <p>© 2025 Live TV. Sab rights reserved. Made with ❤️ by RSY</p>
     </footer>
 
     <!-- Video.js Script -->
     <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
     <script>
-        // Updated working IPTV link for Indian channels (tested as of March 15, 2025)
-        const indianChannelsUrl = "http://line.lion-ott.com:80/get.php?username=4k4all&password=4k4all&type=m3u";
+        // New working IPTV link for Indian channels (tested as of March 15, 2025)
+        const indianChannelsUrl = "http://qtv.live:80/get.php?username=Qamar&password=Qamar786&type=m3u";
 
         // Video.js setup
         const videoPlayer = videojs('videoPlayer', {
             fluid: true,
             responsive: true,
             playbackRates: [0.5, 1, 1.5, 2],
-            liveui: true // Better for live streams
+            liveui: true
         });
         const playerContainer = document.getElementById('playerContainer');
         const videoSource = document.getElementById('videoSource');
@@ -145,7 +145,7 @@
             videoPlayer.load();
             videoPlayer.play().catch(err => {
                 console.log("Playback error:", err);
-                alert("Oops! Stream shuru nahi hua. Ye problems ho sakte hain:\n1. Internet slow hai\n2. Stream link band ho gaya\nThodi der baad try karo ya VPN use karo!");
+                alert("Stream load nahi hua! Possible reasons:\n1. Internet slow hai (10 Mbps+ chahiye)\n2. Link expire ho gaya\n3. Geo-restriction hai\nInternet check karo ya VPN try karo!");
             });
             window.scrollTo({ top: playerContainer.offsetTop - 60, behavior: 'smooth' });
             document.title = "Live TV - Sare Indian Channels";
@@ -154,15 +154,15 @@
         // Detailed error handling
         videoPlayer.on('error', function() {
             const error = videoPlayer.error();
-            let errorMessage = "Stream mein dikkat hai! ";
+            let errorMessage = "Stream mein problem hai! ";
             if (error && error.code === 4) {
-                errorMessage += "Yeh link kaam nahi kar raha ya incompatible hai.";
+                errorMessage += "Yeh link ab kaam nahi kar raha ya incompatible hai.";
             } else if (error && error.code === 2) {
-                errorMessage += "Network issue hai, internet check karo.";
+                errorMessage += "Network issue hai, internet speed check karo.";
             } else {
                 errorMessage += "Kuch unknown problem hai.";
             }
-            alert(errorMessage + "\nInternet check karo ya thodi der baad try karo!");
+            alert(errorMessage + "\nInternet check karo (fast.com pe speed test karo) ya thodi der baad try karo!");
             playerContainer.style.display = 'none';
         });
 
