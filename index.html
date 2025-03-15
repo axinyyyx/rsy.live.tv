@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Star Sports Live - Free Matches</title>
+    <title>RSY Sports Live - Free Matches</title>
     <!-- Video.js CSS -->
     <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
     <style>
@@ -100,8 +100,8 @@
 </head>
 <body>
     <header>
-        <h1>Star Sports Live - Free Matches</h1>
-        <p>Star Sports ke free live matches dekho!</p>
+        <h1>RSY Sports Live - Free Matches</h1>
+        <p>RSY Sports ke free live matches dekho!</p>
     </header>
 
     <div class="container">
@@ -115,7 +115,7 @@
         </div>
 
         <div class="channel-section">
-            <button onclick="playStarSports()">Star Sports Live Dekho</button>
+            <button onclick="playRSYSports()">RSY Sports Live Dekho</button>
         </div>
     </div>
 
@@ -126,8 +126,8 @@
     <!-- Video.js Script -->
     <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
     <script>
-        // Free Star Sports stream link (tested as of March 15, 2025)
-        const starSportsUrl = "http://iptvindia.mozoroot.net:80/get.php?username=india&password=india&type=m3u";
+        // Free RSY Sports stream link (tested as of March 15, 2025)
+        const RSYSportsUrl = "http://iptvindia.mozoroot.net:80/get.php?username=india&password=india&type=m3u";
 
         // Video.js setup
         const videoPlayer = videojs('videoPlayer', {
@@ -139,16 +139,16 @@
         const playerContainer = document.getElementById('playerContainer');
         const videoSource = document.getElementById('videoSource');
 
-        function playStarSports() {
+        function playRSYSports() {
             playerContainer.style.display = 'block';
-            videoSource.src = starSportsUrl;
+            videoSource.src = RSYSportsUrl;
             videoPlayer.load();
             videoPlayer.play().catch(err => {
                 console.log("Playback error:", err);
                 alert("Stream load nahi hua!\nReasons:\n1. Internet slow hai (10 Mbps+ chahiye)\n2. Link band ho gaya\n3. Geo-restriction hai\nInternet check karo ya VPN try karo!");
             });
             window.scrollTo({ top: playerContainer.offsetTop - 60, behavior: 'smooth' });
-            document.title = "Star Sports Live - Free Matches";
+            document.title = "RSY Sports Live - Free Matches";
         }
 
         // Error handling
@@ -167,7 +167,7 @@
         });
 
         // Reset title when page loads
-        window.onload = () => document.title = "Star Sports Live - Free Matches";
+        window.onload = () => document.title = "RSY Sports Live - Free Matches";
     </script>
 </body>
 </html>
