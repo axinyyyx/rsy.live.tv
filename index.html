@@ -33,6 +33,9 @@
             color: #fff;
             border-radius: 0 0 20px 20px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            position: sticky;
+            top: 0;
+            z-index: 10;
         }
 
         header h1 {
@@ -55,6 +58,12 @@
             background: #2c2c2c;
             color: #fff;
             box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            transition: width 0.3s ease;
+        }
+
+        #searchInput:focus {
+            width: 80%;
+            outline: none;
         }
 
         .channel-grid {
@@ -69,16 +78,23 @@
             border-radius: 15px;
             padding: 15px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-            transition: transform 0.3s ease;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
         .channel-card:hover {
             transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
         }
 
         .channel-card h3 {
             color: #ff4444;
             margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        .channel-card p {
+            font-size: 0.9rem;
+            color: #bbb;
         }
 
         .channel-card button {
@@ -101,6 +117,14 @@
             margin: 20px auto;
             max-width: 800px;
             display: none;
+            background: #2c2c2c;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+        }
+
+        .vjs-default-skin {
+            background: #1a1a1a;
         }
 
         footer {
@@ -108,6 +132,8 @@
             padding: 1rem;
             margin-top: 2rem;
             color: #888;
+            background: #222;
+            border-radius: 10px 10px 0 0;
         }
 
         @media (max-width: 768px) {
@@ -122,6 +148,10 @@
             .channel-grid {
                 grid-template-columns: 1fr;
             }
+
+            #playerContainer {
+                max-width: 100%;
+            }
         }
     </style>
 </head>
@@ -133,12 +163,15 @@
 
     <div class="container">
         <div class="search-bar">
-            <input type="text" id="searchInput" placeholder="Channel khoj karo...">
+            <input type="text" id="searchInput" placeholder="Channel ya language khoj karo...">
         </div>
 
         <div id="playerContainer">
-            <video id="videoPlayer" class="video-js vjs-default-skin" controls width="100%">
+            <video id="videoPlayer" class="video-js vjs-default-skin" controls width="100%" height="400">
                 <source id="videoSource" src="" type="application/x-mpegURL">
+                <p class="vjs-no-js">
+                    Video player ke liye JavaScript enable karo ya modern browser use karo.
+                </p>
             </video>
         </div>
 
@@ -148,30 +181,39 @@
     </div>
 
     <footer>
-        <p>© 2025 Live TV. Sab rights reserved.</p>
+        <p>© 2025 Live TV. Sab rights reserved. Made with ❤️ by xAI</p>
     </footer>
 
     <!-- Video.js Script -->
     <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
     <script>
-        // Indian channels with language-based playlists from IPTV
+        // Indian channels based on language playlists from IPTV
         const indianChannels = [
-            { name: "Hindi Channels", url: "https://iptv-org.github.io/iptv/languages/hin.m3u", category: "Hindi", lang: "Hindi" },
-            { name: "Tamil Channels", url: "https://iptv-org.github.io/iptv/languages/tam.m3u", category: "Tamil", lang: "Tamil" },
-            { name: "Telugu Channels", url: "https://iptv-org.github.io/iptv/languages/tel.m3u", category: "Telugu", lang: "Telugu" },
-            { name: "Kannada Channels", url: "https://iptv-org.github.io/iptv/languages/kan.m3u", category: "Kannada", lang: "Kannada" },
-            { name: "Malayalam Channels", url: "https://iptv-org.github.io/iptv/languages/mal.m3u", category: "Malayalam", lang: "Malayalam" },
-            { name: "Bengali Channels", url: "https://iptv-org.github.io/iptv/languages/ben.m3u", category: "Bengali", lang: "Bengali" },
-            { name: "Marathi Channels", url: "https://iptv-org.github.io/iptv/languages/mar.m3u", category: "Marathi", lang: "Marathi" },
-            { name: "Punjabi Channels", url: "https://iptv-org.github.io/iptv/languages/pan.m3u", category: "Punjabi", lang: "Punjabi" },
-            { name: "Gujarati Channels", url: "https://iptv-org.github.io/iptv/languages/guj.m3u", category: "Gujarati", lang: "Gujarati" },
-            { name: "Oriya Channels", url: "https://iptv-org.github.io/iptv/languages/ori.m3u", category: "Oriya", lang: "Oriya" },
-            { name: "Assamese Channels", url: "https://iptv-org.github.io/iptv/languages/asm.m3u", category: "Assamese", lang: "Assamese" },
-            { name: "Urdu Channels", url: "https://iptv-org.github.io/iptv/languages/urd.m3u", category: "Urdu", lang: "Urdu" },
-            // Add more Indian languages as needed
+            { name: "Hindi Channels", url: "https://iptv-org.github.io/iptv/languages/hin.m3u", category: "Entertainment/News", lang: "Hindi" },
+            { name: "Tamil Channels", url: "https://iptv-org.github.io/iptv/languages/tam.m3u", category: "Entertainment", lang: "Tamil" },
+            { name: "Telugu Channels", url: "https://iptv-org.github.io/iptv/languages/tel.m3u", category: "Entertainment", lang: "Telugu" },
+            { name: "Kannada Channels", url: "https://iptv-org.github.io/iptv/languages/kan.m3u", category: "Entertainment", lang: "Kannada" },
+            { name: "Malayalam Channels", url: "https://iptv-org.github.io/iptv/languages/mal.m3u", category: "Entertainment", lang: "Malayalam" },
+            { name: "Bengali Channels", url: "https://iptv-org.github.io/iptv/languages/ben.m3u", category: "Entertainment", lang: "Bengali" },
+            { name: "Marathi Channels", url: "https://iptv-org.github.io/iptv/languages/mar.m3u", category: "Entertainment", lang: "Marathi" },
+            { name: "Punjabi Channels", url: "https://iptv-org.github.io/iptv/languages/pan.m3u", category: "Entertainment", lang: "Punjabi" },
+            { name: "Gujarati Channels", url: "https://iptv-org.github.io/iptv/languages/guj.m3u", category: "Entertainment", lang: "Gujarati" },
+            { name: "Oriya Channels", url: "https://iptv-org.github.io/iptv/languages/ori.m3u", category: "Entertainment", lang: "Oriya" },
+            { name: "Assamese Channels", url: "https://iptv-org.github.io/iptv/languages/asm.m3u", category: "Entertainment", lang: "Assamese" },
+            { name: "Urdu Channels", url: "https://iptv-org.github.io/iptv/languages/urd.m3u", category: "Entertainment/News", lang: "Urdu" },
+            { name: "Bhojpuri Channels", url: "https://iptv-org.github.io/iptv/languages/bho.m3u", category: "Entertainment", lang: "Bhojpuri" },
+            { name: "Konkani Channels", url: "https://iptv-org.github.io/iptv/languages/kok.m3u", category: "Entertainment", lang: "Konkani" },
+            { name: "Maithili Channels", url: "https://iptv-org.github.io/iptv/languages/mai.m3u", category: "Entertainment", lang: "Maithili" },
+            { name: "Santali Channels", url: "https://iptv-org.github.io/iptv/languages/sat.m3u", category: "Entertainment", lang: "Santali" },
+            { name: "Sindhi Channels", url: "https://iptv-org.github.io/iptv/languages/snd.m3u", category: "Entertainment", lang: "Sindhi" },
         ];
 
-        const videoPlayer = videojs('videoPlayer');
+        // Video.js setup
+        const videoPlayer = videojs('videoPlayer', {
+            fluid: true,
+            responsive: true,
+            playbackRates: [0.5, 1, 1.5, 2],
+        });
         const playerContainer = document.getElementById('playerContainer');
         const videoSource = document.getElementById('videoSource');
 
@@ -186,18 +228,22 @@
                     <h3>${channel.name}</h3>
                     <p>Category: ${channel.category}</p>
                     <p>Language: ${channel.lang}</p>
-                    <button onclick="playChannel('${channel.url}')">Dekho</button>
+                    <button onclick="playChannel('${channel.url}', '${channel.name}')">Dekho</button>
                 `;
                 channelGrid.appendChild(card);
             });
         }
 
-        function playChannel(url) {
+        function playChannel(url, name) {
             playerContainer.style.display = 'block';
             videoSource.src = url;
             videoPlayer.load();
-            videoPlayer.play();
-            window.scrollTo({ top: playerContainer.offsetTop, behavior: 'smooth' });
+            videoPlayer.play().catch(err => {
+                console.log("Playback error:", err);
+                alert(`Oops! ${name} stream load nahi hua. Network check karo ya baad mein try karo.`);
+            });
+            window.scrollTo({ top: playerContainer.offsetTop - 60, behavior: 'smooth' });
+            document.title = `Live TV - Watching ${name}`;
         }
 
         // Search functionality
@@ -205,14 +251,23 @@
             const searchTerm = e.target.value.toLowerCase();
             const filteredChannels = indianChannels.filter(channel => 
                 channel.name.toLowerCase().includes(searchTerm) || 
-                channel.category.toLowerCase().includes(searchTerm) ||
+                channel.category.toLowerCase().includes(searchTerm) || 
                 channel.lang.toLowerCase().includes(searchTerm)
             );
             displayChannels(filteredChannels);
         });
 
+        // Error handling for player
+        videoPlayer.on('error', function() {
+            alert('Stream mein problem hai! Koi aur channel try karo.');
+            playerContainer.style.display = 'none';
+        });
+
         // Initial display of all channels
         displayChannels(indianChannels);
+
+        // Reset title when page loads
+        window.onload = () => document.title = "Live TV - Indian Channels";
     </script>
 </body>
 </html>
