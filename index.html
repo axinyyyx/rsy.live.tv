@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live TV - Indian Channels</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f0f2f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            padding: 2rem;
+            text-align: center;
+            color: white;
+            border-radius: 0 0 20px 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .search-bar {
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        #searchInput {
+            padding: 12px;
+            width: 60%;
+            max-width: 400px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .channel-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .channel-card {
+            background: white;
+            border-radius: 15px;
+            padding: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .channel-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .channel-card h3 {
+            color: #ff6b6b;
+            margin-bottom: 10px;
+        }
+
+        .channel-card button {
+            background: #4ecdc4;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 1rem;
+            transition: background 0.3s ease;
+        }
+
+        .channel-card button:hover {
+            background: #45b7b0;
+        }
+
+        footer {
+            text-align: center;
+            padding: 1rem;
+            margin-top: 2rem;
+            color: #666;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+
+            #searchInput {
+                width: 80%;
+            }
+
+            .channel-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Live TV - Indian Channels</h1>
+        <p>Apne favorite Indian channels free mein dekho!</p>
+    </header>
+
+    <div class="container">
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Channel khoj karo...">
+        </div>
+
+        <div class="channel-grid" id="channelGrid">
+            <!-- Channels will be added dynamically -->
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2025 Live TV. Sab rights reserved.</p>
+    </footer>
+
+    <script>
+        // Sample Indian channels ka list
+        const indianChannels = [
+            { name: "Aaj Tak", url: "https://iptv-org.github.io/iptv/countries/in.m3u", category: "News" },
+            { name: "Zee News", url: "https://iptv-org.github.io/iptv/countries/in.m3u", category: "News" },
+            { name: "Star Plus", url: "https://iptv-org.github.io/iptv/countries/in.m3u", category: "Entertainment" },
+            { name: "Sony TV", url: "https://iptv-org.github.io/iptv/countries/in.m3u", category: "Entertainment" },
+            { name: "Colors TV", url: "https://iptv-org.github.io/iptv/countries/in.m3u", category: "Entertainment" },
+            { name: "Sports 18", url: "https://iptv-org.github.io/iptv/countries/in.m3u", category: "Sports" },
+            { name: "Star Sports", url: "https://iptv-org.github.io/iptv/countries/in.m3u", category: "Sports" },
+            { name: "MTV India", url: "https://iptv-org.github.io/iptv/countries/in.m3u", category: "Music" },
+        ];
+
+        function displayChannels(channels) {
+            const channelGrid = document.getElementById('channelGrid');
+            channelGrid.innerHTML = '';
+
+            channels.forEach(channel => {
+                const card = document.createElement('div');
+                card.className = 'channel-card';
+                card.innerHTML = `
+                    <h3>${channel.name}</h3>
+                    <p>Category: ${channel.category}</p>
+                    <button onclick="playChannel('${channel.url}')">Dekho</button>
+                `;
+                channelGrid.appendChild(card);
+            });
+        }
+
+        function playChannel(url) {
+            // Real mein yeh video player kholega
+            alert(`Channel streaming shuru: ${url}\n(Yeh demo hai, asli player mein channel chalega)`);
+            // Yahan Video.js ya koi aur player add kar sakte ho
+        }
+
+        // Search ka function
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const filteredChannels = indianChannels.filter(channel => 
+                channel.name.toLowerCase().includes(searchTerm) || 
+                channel.category.toLowerCase().includes(searchTerm)
+            );
+            displayChannels(filteredChannels);
+        });
+
+        // Shuru mein sab channels dikhao
+        displayChannels(indianChannels);
+    </script>
+</body>
+</html>
