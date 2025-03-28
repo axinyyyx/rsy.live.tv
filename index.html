@@ -1,173 +1,26 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RSY Sports Live - Free Matches</title>
-    <!-- Video.js CSS -->
-    <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
+    <title>Live Stream</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Arial, sans-serif;
-        }
-
         body {
-            background-color: #1a1a1a;
-            color: #e0e0e0;
-            line-height: 1.6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #000;
+            margin: 0;
         }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        header {
-            background: linear-gradient(45deg, #ff4444, #00b4d8);
-            padding: 2rem;
-            text-align: center;
-            color: #fff;
-            border-radius: 0 0 20px 20px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-            position: sticky;
-            top: 0;
-            z-index: 10;
-        }
-
-        header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
-        }
-
-        #playerContainer {
-            margin: 20px auto;
-            max-width: 800px;
-            background: #2c2c2c;
-            padding: 10px;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-            display: none;
-        }
-
-        .channel-section {
-            text-align: center;
-            margin: 20px 0;
-        }
-
-        .channel-section button {
-            background: #00b4d8;
-            color: #fff;
+        iframe {
+            width: 80%;
+            height: 80vh;
             border: none;
-            padding: 12px 25px;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 1.2rem;
-            transition: background 0.3s ease;
-        }
-
-        .channel-section button:hover {
-            background: #0093b0;
-        }
-
-        footer {
-            text-align: center;
-            padding: 1rem;
-            margin-top: 2rem;
-            color: #888;
-            background: #222;
-            border-radius: 10px 10px 0 0;
-        }
-
-        @media (max-width: 768px) {
-            header h1 {
-                font-size: 1.8rem;
-            }
-
-            #playerContainer {
-                max-width: 100%;
-            }
-
-            .channel-section button {
-                padding: 10px 20px;
-                font-size: 1rem;
-            }
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>RSY Sports Live - Free Matches</h1>
-        <p>RSY Sports ke free live matches dekho!</p>
-    </header>
-
-    <div class="container">
-        <div id="playerContainer">
-            <video id="videoPlayer" class="video-js vjs-default-skin" controls width="100%" height="400">
-                <source id="videoSource" src="" type="application/x-mpegURL">
-                <p class="vjs-no-js">
-                    Video player ke liye JavaScript enable karo ya modern browser use karo.
-                </p>
-            </video>
-        </div>
-
-        <div class="channel-section">
-            <button onclick="playRSYSports()">RSY Sports Live Dekho</button>
-        </div>
-    </div>
-
-    <footer>
-        <p>© 2025 Live TV. Sab rights reserved. Made with ❤️ by RSY</p>
-    </footer>
-
-    <!-- Video.js Script -->
-    <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
-    <script>
-        // Free RSY Sports stream link (tested as of March 15, 2025)
-        const RSYSportsUrl = "http://iptvindia.mozoroot.net:80/get.php?username=india&password=india&type=m3u";
-
-        // Video.js setup
-        const videoPlayer = videojs('videoPlayer', {
-            fluid: true,
-            responsive: true,
-            playbackRates: [0.5, 1, 1.5, 2],
-            liveui: true
-        });
-        const playerContainer = document.getElementById('playerContainer');
-        const videoSource = document.getElementById('videoSource');
-
-        function playRSYSports() {
-            playerContainer.style.display = 'block';
-            videoSource.src = RSYSportsUrl;
-            videoPlayer.load();
-            videoPlayer.play().catch(err => {
-                console.log("Playback error:", err);
-                alert("Stream load nahi hua!\nReasons:\n1. Internet slow hai (10 Mbps+ chahiye)\n2. Link band ho gaya\n3. Geo-restriction hai\nInternet check karo ya VPN try karo!");
-            });
-            window.scrollTo({ top: playerContainer.offsetTop - 60, behavior: 'smooth' });
-            document.title = "RSY Sports Live - Free Matches";
-        }
-
-        // Error handling
-        videoPlayer.on('error', function() {
-            const error = videoPlayer.error();
-            let errorMessage = "Stream mein problem hai! ";
-            if (error && error.code === 4) {
-                errorMessage += "Yeh link kaam nahi kar raha ya incompatible hai.";
-            } else if (error && error.code === 2) {
-                errorMessage += "Network issue hai, internet speed check karo.";
-            } else {
-                errorMessage += "Kuch unknown problem hai.";
-            }
-            alert(errorMessage + "\nInternet check karo (fast.com pe test karo) ya VPN use karo!");
-            playerContainer.style.display = 'none';
-        });
-
-        // Reset title when page loads
-        window.onload = () => document.title = "RSY Sports Live - Free Matches";
-    </script>
+    <iframe src="https://streamsl.fun/i.php?dtv=https://live.tsports.com/mobile_hls/tsports_live_2/playlist.m3u8" allowfullscreen></iframe>
 </body>
 </html>
